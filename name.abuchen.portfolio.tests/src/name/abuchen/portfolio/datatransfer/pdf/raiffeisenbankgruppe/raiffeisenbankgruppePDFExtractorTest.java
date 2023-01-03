@@ -247,7 +247,7 @@ public class raiffeisenbankgruppePDFExtractorTest
         assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.TAX),
                         is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(0.00))));
         assertThat(entry.getPortfolioTransaction().getUnitSum(Unit.Type.FEE),
-                        is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(1.85))));		
+                        is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(1.85))));	
     }
 
     @Test
