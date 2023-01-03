@@ -112,7 +112,6 @@ public class RaiffeisenBankgruppePDFExtractor extends AbstractPDFExtractor
                 // Schlusstag/-Zeit 09.11.2021 09:58:45 Auftraggeber Muster         
                 // Handelszeit: 05.01.2022 
                 .section("time").optional()
-                .match("^Handelszeit: .* (?<time>[\\d]{2}:[\\d]{2}:[\\d]{2}).*$")
                 .match("^(Handelszeit:|Schlusstag\\/\\-Zeit) .* (?<time>[\\d]{2}:[\\d]{2}:[\\d]{2}).*$")
                 .assign((t, v) -> type.getCurrentContext().put("time", v.get("time")))
 
