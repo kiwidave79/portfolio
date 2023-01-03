@@ -239,7 +239,7 @@ public class raiffeisenbankgruppePDFExtractorTest
         assertThat(entry.getPortfolioTransaction().getShares(), is(Values.Share.factorize(0.944)));
         assertThat(entry.getSource(), is("Kauf05AT.txt"));
         assertNull(entry.getNote());
-		
+
         assertThat(entry.getPortfolioTransaction().getMonetaryAmount(),
                         is(Money.of(CurrencyUnit.EUR, Values.Amount.factorize(118.97))));
         assertThat(entry.getPortfolioTransaction().getGrossValue(),
