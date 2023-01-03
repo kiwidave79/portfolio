@@ -109,10 +109,22 @@ public class RaiffeisenBankgruppePDFExtractor extends AbstractPDFExtractor
                         )
 
                 // Handelszeit: 03.05.2021 13:45:18
-                // Schlusstag/-Zeit 09.11.2021 09:58:45 Auftraggeber Muster 
-                .section("date", "time")
-                .match("^(Handelszeit:|Schlusstag\\/\\-Zeit) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}) (?<time>[\\d]{2}:[\\d]{2}:[\\d]{2}).*$")
-                .assign((t, v) -> t.setDate(asDate(v.get("date"), v.get("time"))))
+                // Schlusstag/-Zeit 09.11.2021 09:58:45 Auftraggeber Muster         
+                // Handelszeit: 05.01.2022 
+                .section("time").optional()
+                .match("^Handelszeit: .* (?<time>[\\d]{2}:[\\d]{2}:[\\d]{2}).*$")
+                .match("^(Handelszeit:|Schlusstag\\/\\-Zeit) .* (?<time>[\\d]{2}:[\\d]{2}:[\\d]{2}).*$")
+                .assign((t, v) -> type.getCurrentContext().put("time", v.get("time")))
+
+                // Handelszeit: 11.5.2021
+                .section("date")
+                .match("^(Handelszeit:|Schlusstag\\/\\-Zeit) (?<date>[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}).*$")
+                .assign((t, v) -> {
+                    if (type.getCurrentContext().get("time") != null)
+                        t.setDate(asDate(v.get("date"), type.getCurrentContext().get("time")));
+                    else
+                        t.setDate(asDate(v.get("date")));
+                })
 
                 // Zu Lasten IBAN AT99 9999 9000 0011 1110 -107,26 EUR  
                 // Zu Gunsten IBAN AT27 3284 2000 0011 1111 36.115,76 EUR
