@@ -37,9 +37,14 @@ jobs:
         --file portfolio-app/pom.xml
 
   build-analyze:
-    name: Maven Build + Sonar Analysis
+    name: Maven Build - ${{ matrix.os }}
     if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest, windows-latest]
+      fail-fast: false
+      max-parallel: 4
     steps:
     - uses: actions/checkout@v3
       with:
