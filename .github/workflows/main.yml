@@ -76,7 +76,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
    
     - name: Create staging directory
-      run: mkdir staging && cp **/target/*.jar **/target/*.zip staging 
+      run: mkdir staging && cp **/target/*.jar staging && cp **/target/*.zip staging 
       
     - name: Copy artifacts
       uses: actions/upload-artifact@v3
