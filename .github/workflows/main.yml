@@ -72,9 +72,9 @@ jobs:
 #        --file portfolio-app/pom.xml
       run: |
         mvn verify \
-        --batch-mode \
-        --update-snapshots \
-        --file portfolio-app/pom.xml
+        -batch-mode \
+        -update-snapshots \
+        -file portfolio-app/pom.xml
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
    
