@@ -71,10 +71,7 @@ jobs:
 #        -Dsonar.login=${{ secrets.SONAR_TOKEN }} \
 #        --file portfolio-app/pom.xml
       run: |
-        mvn verify \
-        -batch-mode \
-        -update-snapshots \
-        -file portfolio-app/pom.xml
+        mvn verify --batch-mode --update-snapshots --file portfolio-app/pom.xml
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
    
