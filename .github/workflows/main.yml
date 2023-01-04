@@ -42,7 +42,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [ubuntu-latest, windows-latest]
       fail-fast: false
       max-parallel: 4
     steps:
@@ -76,7 +76,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
    
     - name: Create staging directory
-      run: mkdir staging && cp **/target/*.jar staging 
+      run: mkdir staging && cp **/target/*.jar **/target/*.zip staging 
       
     - name: Copy artifacts
       uses: actions/upload-artifact@v3
