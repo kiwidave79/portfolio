@@ -184,9 +184,11 @@ public class RaiffeisenBankgruppePDFExtractor extends AbstractPDFExtractor
                 .section("isin", "name", "name1", "currency").optional()
                 .match("^Titel: (?<isin>[\\w]{12}) (?<name>.*)$")
                 .match("^(?<name1>.*)$")
-                .match("^Dividende: [\\.,\\d]+ (?<currency>[\\w]{3})$")
+                .match("^(Dividende:|Ertrag:) [\\.,\\d]+ (?<currency>[\\w]{3})$")
                 .assign((t, v) -> {
-                    if (!v.get("name1").startsWith("Dividende:"))
+                    if (v.get("name1").startsWith("MITEIGENTUMSANTEILE"))
+                        t.setNote(trim(v.get("name1")));
+                    else if (!v.get("name1").startsWith("Dividende:"))
                         v.put("name", trim(v.get("name")) + " " + trim(v.get("name1")));
 
                     t.setSecurity(getOrCreateSecurity(v));
@@ -528,6 +530,11 @@ public class RaiffeisenBankgruppePDFExtractor extends AbstractPDFExtractor
                 // Quellensteuer: -47,48 EUR 
                 .section("tax", "currency").optional()
                 .match("^Quellensteuer: \\-(?<tax>[\\.,\\d]+) (?<currency>[\\w]{3}).*$")
+                .assign((t, v) -> processTaxEntries(t, v, type))
+
+                // KESt: -22,50 EUR 
+                .section("tax", "currency").optional()
+                .match("^KESt: \\-(?<tax>[\\.,\\d]+) (?<currency>[\\w]{3}).*$")
                 .assign((t, v) -> processTaxEntries(t, v, type))
 
                 // Auslands-KESt: -22,50 EUR 
